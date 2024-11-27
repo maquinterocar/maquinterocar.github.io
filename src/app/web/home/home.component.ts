@@ -13,8 +13,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export default class HomeComponent {
 
-  year = signal(new Date().getFullYear());
-
   private fb = inject(FormBuilder);
 
   get name() {
