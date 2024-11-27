@@ -24,12 +24,27 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets"
               }
             ],
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/bootstrap.bundle.min.js",
+              "src/assets/js/jquery-3.0.0.min.js",
+              "src/assets/js/plugin.js",
+              "src/assets/js/jquery.mCustomScrollbar.concat.min.js",
+              "src/assets/js/custom.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "buffer"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
