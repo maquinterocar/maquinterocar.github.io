@@ -54,7 +54,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        name: ${{ARTIFACT_NAME}}
+        name: ${ARTIFACT_NAME}
         # Upload entire repository
         path: 'build/'
 
@@ -88,4 +88,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: ${{ needs.build.outputs.ARTIFACT_NAME }}
+          artifact_name: ${ARTIFACT_NAME}
