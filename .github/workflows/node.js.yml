@@ -47,25 +47,28 @@ jobs:
     - run: npm run serve:ssr:website-front 2> serve.log > serve.log &
     - name: check files
       run: ls -la dist/website-front/browser
+    - name: tail files
+      run: tail -f test.log serve.log
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+       # Upload entire repository
+       path: 'dist/website-front/browser'
 
   # Single deploy job since we're just deploying
   deploy:
-      environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
-#        - name: Setup Pages
-#          uses: actions/configure-pages@v5
-        - name: Upload artifact
-          uses: actions/upload-pages-artifact@v3
-          with:
-            # Upload entire repository
-            path: './dist/website-front/browser'
-        - name: Deploy to GitHub Pages
-          id: deployment
-          uses: actions/deploy-pages@v4
-        - name: tail files
-          run: tail -f test.log serve.log
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
