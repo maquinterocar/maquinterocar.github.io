@@ -45,15 +45,21 @@ jobs:
     - run: npm run build --if-present || echo "unable run npm build --if-present"
     - run: npm test 2> test.log > test.log &
     - run: npm run serve:ssr:website-front 2> serve.log > serve.log &
-    - name: check files
-      run: ls -la dist/website-front/browser
-    - name: tail files
-      run: tail -f test.log serve.log
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
        # Upload entire repository
        path: 'dist/website-front/browser'
+
+  review:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check files
+        run: ls -la dist/website-front/browser
+      - name: tail files
+        run: tail -f test.log serve.log
 
   # Single deploy job since we're just deploying
   deploy:
