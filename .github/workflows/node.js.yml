@@ -29,6 +29,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
@@ -49,43 +57,14 @@ jobs:
       run: mv dist/website-front/browser build
     - name: check files
       run: ls -la .
-    - name: set env
-      run: export ARTIFACT_NAME=innova-website-front-artifact-node-${{ matrix.node-version }}
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
         name: innova-website-front-artifact-node-${{ matrix.node-version }}
         # Upload entire repository
         path: 'build/'
-
-  review:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: tail files
-        run: tail -f test.log serve.log
-
-  # Single deploy job since we're just deploying
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: check files
-        run: ls -la
-#      - name: check browser dir
-#        run: find . -name browser
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: ${ARTIFACT_NAME}
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      with:
+        artifact_name: innova-website-front-artifact-node-${{ matrix.node-version }}
