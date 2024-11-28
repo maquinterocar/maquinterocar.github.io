@@ -45,11 +45,6 @@ jobs:
     - run: npm run build --if-present || echo "unable run npm build --if-present"
     - run: npm test 2> test.log > test.log &
     - run: npm run serve:ssr:website-front 2> serve.log > serve.log &
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-       # Upload entire repository
-       path: 'dist/website-front/browser'
 
   review:
     needs: build
@@ -75,6 +70,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: 'dist/website-front/browser'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
