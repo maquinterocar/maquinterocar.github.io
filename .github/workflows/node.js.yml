@@ -51,8 +51,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: check files
-        run: ls -la dist/website-front/browser
       - name: tail files
         run: tail -f test.log serve.log
 
@@ -70,6 +68,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: check files
+        run: ls -la .
+      - name: check browser dir
+        run: find . -name browser
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
