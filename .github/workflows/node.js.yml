@@ -45,6 +45,13 @@ jobs:
     - run: npm run build --if-present || echo "unable run npm build --if-present"
     - run: npm test 2> test.log > test.log &
     - run: npm run serve:ssr:website-front 2> serve.log > serve.log &
+    - name: prepare artifact
+      run: mv dist/website-front/browser build
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        # Upload entire repository
+        path: 'build/'
 
   review:
     needs: build
@@ -70,13 +77,8 @@ jobs:
     steps:
       - name: check files
         run: ls -la .
-      - name: check browser dir
-        run: find . -name browser
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: 'dist/website-front/browser'
+#      - name: check browser dir
+#        run: find . -name browser
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
