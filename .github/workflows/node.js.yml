@@ -81,7 +81,7 @@ jobs:
 
     steps:
       - name: check files
-        run: env
+        run: ls -la
 #      - name: check browser dir
 #        run: find . -name browser
       - name: Deploy to GitHub Pages
