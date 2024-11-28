@@ -47,9 +47,14 @@ jobs:
     - run: npm run serve:ssr:website-front 2> serve.log > serve.log &
     - name: prepare artifact
       run: mv dist/website-front/browser build
+    - name: check files
+      run: ls -la .
+    - name: set env
+      run: export ARTIFACT_NAME=innova-website-front-artifact-node-${{ matrix.node-version }}
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
+        name: ${{ARTIFACT_NAME}}
         # Upload entire repository
         path: 'build/'
 
@@ -76,9 +81,11 @@ jobs:
 
     steps:
       - name: check files
-        run: ls -la .
+        run: env
 #      - name: check browser dir
 #        run: find . -name browser
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: ${{ needs.build.outputs.ARTIFACT_NAME }}
