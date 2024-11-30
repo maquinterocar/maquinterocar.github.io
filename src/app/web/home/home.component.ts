@@ -10,6 +10,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
     ReactiveFormsModule
   ],
   templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
 })
 export default class HomeComponent {
 
