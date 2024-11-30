@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "postbuild": "node src/libs/beautify.js dist/website-front/browser/index.html",
+    "build": "ng build && npm run postbuild",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:website-front": "node dist/website-front/server/server.mjs"
@@ -35,6 +36,7 @@
     "@types/node": "^18.18.0",
     "autoprefixer": "^10.4.20",
     "jasmine-core": "~5.2.0",
+    "js-beautify": "^1.15.1",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
